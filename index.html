@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PAF-IAST University Chatbot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f4f6fb;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+      background: rgb(0, 0, 71);
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+    }
+    header img {
+      height: 55px;
+    }
+    header h1 {
+      font-size: 22px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: url('data:image/jpeg;base64,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') no-repeat center center/cover;
+      color: white;
+      text-align: center;
+      padding: 80px 20px;
+      position: relative;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.55);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: auto;
+    }
+    .hero h2 {
+      font-size: 38px;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      font-size: 18px;
+      opacity: 0.9;
+    }
+
+    /* Main Layout */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      gap: 40px;
+    }
+
+    /* Universal Section Styling */
+    .section {
+      width: 100%;
+      max-width: 1000px;
+      background: white;
+      border-radius: 14px;
+      padding: 30px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .section:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+    }
+    .section h2 {
+      color: #0047AB;
+      margin-bottom: 18px;
+      font-size: 24px;
+      border-bottom: 2px solid #e0e6f0;
+      padding-bottom: 10px;
+    }
+
+    /* Chat Section */
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      height: 55vh;
+      min-height: 420px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      overflow: hidden;
+      width: 100%;
+      max-width: 100%;
+    }
+    .chat-header {
+      background: #0047AB;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .chat-body {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background: #f9f9f9;
+    }
+    .message {
+      margin: 10px 0;
+      padding: 12px 16px;
+      border-radius: 10px;
+      max-width: 75%;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+    .user {
+      background: #0047AB;
+      color: white;
+      margin-left: auto;
+      text-align: right;
+    }
+    .bot {
+      background: #ececec;
+      color: black;
+      margin-right: auto;
+      text-align: left;
+    }
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #ccc;
+      gap: 8px;
+      padding: 8px 12px;
+      background: #e0e6f0;
+    }
+    .chat-input input {
+      flex: 1;
+      border: 1px solid #ddd;
+      padding: 14px 20px;
+      border-radius: 25px;
+      font-size: 16px;
+      outline: none;
+      min-width: 0;
+    }
+    .chat-input button {
+      background: #0047AB;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .chat-input button:hover {
+      background: #003080;
+    }
+
+    /* Guidelines */
+    .guidelines ul {
+      list-style: none;
+    }
+
+    .chat-list {
+  margin: 6px 0;
+  padding-left: 18px;
+}
+
+.chat-list li {
+  margin: 2px 0;
+  line-height: 1.4;
+}
+
+    .guidelines li {
+      background: #f0f5ff;
+      margin: 10px 0;
+      padding: 12px;
+      border-left: 5px solid #0047AB;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    /* FAQs */
+    .faqs details {
+      margin: 12px 0;
+      background: #f9f9f9;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .faqs summary {
+      font-weight: bold;
+    }
+
+    /* Quick Links */
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .links a {
+      flex: 1 1 calc(50% - 15px);
+      text-decoration: none;
+      background: #0047AB;
+      color: white;
+      padding: 12px;
+      text-align: center;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    .links a:hover {
+      background: #003080;
+    }
+
+    /* Contact */
+    .contact p {
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .contact a {
+      color: #0047AB;
+      text-decoration: none;
+    }
+    .contact a:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    footer {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h2 { font-size: 28px; }
+      .section { padding: 20px; }
+      .links a { flex: 1 1 100%; }
+    }
+
+    @media (max-width:576px)
+    {
+      .chat-input {
+        padding: 6px 10px;
+        gap: 6px;
+      }
+
+      .chat-input input{
+        padding: 12px 16px;
+        font-size: 15.5px;
+      }
+
+      .chat-input button{
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <img src="https://paf-iast.edu.pk/wp-content/uploads/2024/06/PAFIASTLOGOPNGFinal.png" alt="PAF-IAST Logo">
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Welcome to PAF-IAST Chatbot</h2>
+      <p>Your 24/7 University Assistant – Quick answers about Admissions, Programs, Exams & More</p>
+    </div>
+  </section>
+
+  <!-- Main -->
+  <main>
+    <!-- Chat -->
+    <div class="section">
+      <h2>💬 Chat with Assistant</h2>
+      <div class="chat-container">
+        <div class="chat-header">Ask me anything about PAF-IAST</div>
+        <div class="chat-body" id="chatBody">
+          <div class="message bot">👋 Hello! I’m your University Assistant. How can I help you today?</div>
+        </div>
+        <div class="chat-input">
+          <input type="text" id="userInput" placeholder="Type your message...">
+          <button onclick="sendMessage()">➤</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Guidelines -->
+    <div class="section guidelines">
+      <h2>📌 How to Use the Chatbot</h2>
+      <ul>
+        <li>💡 Type your question and press enter or ➤ to send.</li>
+        <li>📖 Ask about admissions, courses, results, or campus life.</li>
+        <li>🕒 Available 24/7 for all queries.</li>
+        <li>👩‍💻 For complex issues, the chatbot connects you to staff.</li>
+        <li>✔ Use simple and clear language for better results.</li>
+      </ul>
+    </div>
+
+    <!-- FAQs -->
+    <div class="section faqs">
+      <h2>❓ Frequently Asked Questions</h2>
+      <details>
+        <summary>What is this chatbot for?</summary>
+        <p>The chatbot provides instant information about PAF-IAST services, admissions, and more.</p>
+      </details>
+      <details>
+        <summary>Can I ask about admission deadlines?</summary>
+        <p>Yes, you can get admission dates, requirements, and schedules instantly.</p>
+      </details>
+      <details>
+        <summary>Does it work at night?</summary>
+        <p>Yes, the chatbot is available 24/7.</p>
+      </details>
+      <details>
+        <summary>What if my question isn’t answered?</summary>
+        <p>You’ll be guided to contact relevant university staff for help.</p>
+      </details>
+    </div>
+
+    <!-- About -->
+    <div class="section">
+      <h2>ℹ️ About This Chatbot</h2>
+      <p>
+        The PAF-IAST University Assistant Chatbot helps students, parents, and visitors 
+        access university-related information in seconds. Whether it’s admissions, programs, 
+        scholarships, or facilities – the chatbot is your digital assistant.
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="section">
+      <h2>🔗 Quick Links</h2>
+      <div class="links">
+        <a href="https://admissions.paf-iast.edu.pk/Account/Registration/Login">Admissions Portal</a>
+        <a href="https://paf-iast.edu.pk/departments/">Programs & Courses</a>
+        <a href="https://paf-iast.edu.pk/careers-pafiast/">Career</a>
+        <a href="https://paf-iast.edu.pk/campus-life/">Campus Facilities</a>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="section contact">
+      <h2>📞 Contact Support</h2>
+      <p>Email: <a href="mailto:info@paf-iast.edu.pk">info@paf-iast.edu.pk</a></p>
+      <p>Phone: 0995-111 723 278</p>
+      <p>Office Hours: Mon–Fri, 9 AM – 5 PM</p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 PAF-IAST – Pak-Austria Fachhochschule Institute of Applied Sciences and Technology | All Rights Reserved
+  </footer>
+
+ <script>
+  // =============================================
+  //   PAF-IAST University Chatbot - JavaScript
+  // =============================================
+
+  const chatBody = document.getElementById("chatBody");
+  const userInput = document.getElementById("userInput");
+  const sendButton = document.querySelector(".chat-input button");
+
+  const API_URL = "https://shoaibkhanjadoon-university-chatbot-api.hf.space/ask";
+
+  // Enable/disable send button
+  userInput.addEventListener("input", () => {
+    sendButton.disabled = userInput.value.trim() === "";
+  });
+
+  // Send message on Enter
+  userInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  sendButton.addEventListener("click", sendMessage);
+
+  async function sendMessage() {
+    const message = userInput.value.trim();
+    if (!message) return;
+
+    // User message
+    const userMsg = document.createElement("div");
+    userMsg.className = "message user";
+    userMsg.textContent = message;
+    chatBody.appendChild(userMsg);
+
+    userInput.value = "";
+    sendButton.disabled = true;
+    chatBody.scrollTop = chatBody.scrollHeight;
+
+    // Typing indicator
+    const typingMsg = document.createElement("div");
+    typingMsg.className = "message bot";
+    typingMsg.innerHTML = "<em>Typing...</em>";
+    chatBody.appendChild(typingMsg);
+    chatBody.scrollTop = chatBody.scrollHeight;
+
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: message })
+      });
+
+      if (!response.ok) throw new Error(response.status);
+
+      const data = await response.json();
+      typingMsg.remove();
+
+      // ✅ BOT MESSAGE (FORMATTED)
+      const botMsg = document.createElement("div");
+      botMsg.className = "message bot";
+      botMsg.innerHTML = formatBotResponse(
+        data.answer || "No reply received."
+      );
+      chatBody.appendChild(botMsg);
+
+    } catch (error) {
+      typingMsg.remove();
+      const errorMsg = document.createElement("div");
+      errorMsg.className = "message bot";
+      errorMsg.innerHTML = "⚠️ Sorry, could not connect to the assistant.";
+      chatBody.appendChild(errorMsg);
+      console.error(error);
+    }
+
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  // =============================================
+  // 🔥 RESPONSE FORMATTER (THE IMPORTANT PART)
+  // =============================================
+function formatBotResponse(input) {
+    if (!input || typeof input !== 'string') {
+        return '<div style="color:#666; font-style:italic; padding:16px;">(no response)</div>';
+    }
+
+    let text = input.trim();
+
+    // Force new paragraph before every likely heading-like line
+    // Extremely aggressive forced separation for your glued output style
+text = text
+  .replace(/([.!?:])\s*([-#•*]?[A-Z][A-Za-z0-9\s\-:]{6,80}(?::|\s*-))/g, '$1\n\n$2')
+  .replace(/([-:])\s*([A-Z][A-Za-z0-9\s\-:]{6,70}(?::|\s*-))/g, '$1\n\n$2')
+  .replace(/(\w)([A-Z][A-Za-z\s\-:]{10,60}(?::|\s*-))/g, '$1.\n\n$2');  // last resort: split camel-case-like glues
+
+    // ────────────────────────────────────────────────
+    // Only the cleanup you specifically wanted
+    // ────────────────────────────────────────────────
+
+    // Remove long ===== lines especially at the beginning
+    text = text.replace(/^[-=]{10,}\s*/gm, '');
+    text = text.replace(/^[=]{10,}\s*/gm, '');
+
+    // HTML escape
+    text = text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+
+    // Code blocks (unchanged)
+    text = text.replace(/```([\s\S]*?)```/g, (_, code) => {
+        return `<pre style="background:#f8f9fc;padding:16px 20px;border-radius:10px;overflow-x:auto;margin:20px 0;font-size:15px;line-height:1.5;border:1px solid #e2e8f0;"><code>${code.trim()}</code></pre>`;
+    });
+
+    // Inline code (unchanged)
+    text = text.replace(/`([^`]+)`/g, '<code style="background:#f1f5f9;padding:3px 7px;border-radius:5px;font-family:monospace;">$1</code>');
+
+    // Bold / italic (unchanged)
+    text = text
+        .replace(/\*\*\*(.*?)\*\*\*/gs, '<strong><em>$1</em></strong>')
+        .replace(/\*\*(.*?)\*\*/gs, '<strong>$1</strong>')
+        .replace(/__(.*?)__/gs, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/gs, '<em>$1</em>')
+        .replace(/_(.*?)_/gs, '<em>$1</em>');
+
+    // ────────────────────────────────────────────────
+    // Headings — only changed color, size, removed #, tighter spacing
+    // ────────────────────────────────────────────────
+
+    text = text
+        .replace(/^###\s*(.+)$/gm,  '<h3 style="font-size:1.25em; font-weight:700; color:#000; margin:18px 0 4px; padding-bottom:3px;">$1</h3>')
+        .replace(/^##\s*(.+)$/gm,   '<h2 style="font-size:1.45em; font-weight:700; color:#000; margin:22px 0 6px;">$1</h2>')
+        .replace(/^#\s*(.+)$/gm,    '<h1 style="font-size:1.65em; font-weight:700; color:#000; margin:26px 0 8px;">$1</h1>');
+
+    // ────────────────────────────────────────────────
+    // Lists (unchanged)
+    // ────────────────────────────────────────────────
+
+    text = text.replace(
+        /^(\s*)(\d+\.)\s+(.+)$/gm,
+        (m, indent, num, content) => {
+            const level = Math.floor(indent.length / 2);
+            return '  '.repeat(level) + `<li style="margin-left:${level*28}px; margin-bottom:10px;">${content}</li>`;
+        }
+    );
+
+    text = text.replace(
+        /^(\s*)[-*]\s+(.+)$/gm,
+        (m, indent, content) => {
+            const level = Math.floor(indent.length / 2);
+            return '  '.repeat(level) + `<li style="margin-left:${level*24}px; margin-bottom:10px;">${content}</li>`;
+        }
+    );
+
+    text = text.replace(
+        /((?:(?:\s*)<li[^>]*>[\s\S]*?<\/li>\n?)+)/g,
+        (match) => {
+            if (/^\s*<li>\d+\./.test(match)) {
+                return '<ol style="margin:12px 0 20px 32px; padding-left:0; line-height:1.65;">' + match + '</ol>';
+            } else {
+                return '<ul style="margin:12px 0 20px 28px; padding-left:0; list-style-type:disc; line-height:1.65;">' + match + '</ul>';
+            }
+        }
+    );
+
+    // ────────────────────────────────────────────────
+    // Paragraphs — only changed top margin to be smaller after headings
+    // ────────────────────────────────────────────────
+
+    const blocks = text.split(/\n{2,}/);
+
+    text = blocks
+        .map(block => {
+            block = block.trim();
+            if (!block) return '';
+
+            if (/<(h[1-3]|div|ul|ol|pre|blockquote)/i.test(block)) {
+                return block + '\n';
+            }
+
+            // Only this margin is smaller — rest unchanged
+            return `<p style="margin:6px 0 18px; line-height:1.68; font-size:1.04em;">${block}</p>`;
+        })
+        .filter(Boolean)
+        .join('\n');
+
+    text = text.replace(
+        /(?<!<\/?(ul|ol|li|pre|div|blockquote|h[1-3]|p)>)\n/g,
+        '<br style="margin-bottom:6px;">'
+    );
+
+    return text.trim() || '<div style="color:#777; padding:20px;">(empty)</div>';
+}
+
+
+  // Focus input on load
+  window.addEventListener("load", () => {
+    userInput.focus();
+  });
+</script>
+
+</body>
+</html>
